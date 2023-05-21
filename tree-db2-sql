@@ -1,0 +1,48 @@
+-- Create the nodes table
+CREATE TABLE nodes (
+    id INT PRIMARY KEY,
+    name VARCHAR(100)
+);
+
+-- Create the edges table
+CREATE TABLE edges (
+    source_id INT,
+    target_id INT,
+    FOREIGN KEY (source_id) REFERENCES nodes(id),
+    FOREIGN KEY (target_id) REFERENCES nodes(id)
+);
+
+-- Insert nodes data
+INSERT INTO nodes (id, name) VALUES
+    (1, 'Root'),
+    (2, 'Node 1'),
+    (3, 'Node 1.1'),
+    (4, 'Node 1.2'),
+    (5, 'Node 1.2.1'),
+    (6, 'Node 1.2.2'),
+    (7, 'Node 2');
+
+-- Insert edges data
+INSERT INTO edges (source_id, target_id) VALUES
+    (1, 2),
+    (2, 3),
+    (2, 4),
+    (4, 5),
+    (4, 6),
+    (1, 7);
+   
+WITH RECURSIVE tree AS (
+    SELECT n.id, n.name, ARRAY[n.id] AS path
+    FROM nodes n
+    WHERE n.id = 1
+
+    UNION ALL
+
+    SELECT n.id, n.name, t.path || n.id
+    FROM nodes n
+    JOIN edges e ON e.source_id = t.id
+    JOIN tree t ON t.id = e.target_id
+)
+SELECT t.name, t.path
+FROM tree t
+ORDER BY t.path;
