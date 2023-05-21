@@ -1,0 +1,50 @@
+def generate_tree_data():
+    nodes = [
+        {'id': 1, 'name': 'Vegetables'},
+        {'id': 2, 'name': 'Fruits'},
+        {'id': 3, 'name': 'Apple'},
+        {'id': 4, 'name': 'Orange'},
+        {'id': 5, 'name': 'Lemon'},
+        {'id': 6, 'name': 'Candy'},
+        {'id': 7, 'name': 'Gummies'},
+        {'id': 8, 'name': 'Chocolate'},
+        {'id': 9, 'name': 'M & M\'s'},
+        {'id': 10, 'name': 'Hershey Bar'},
+        {'id': 11, 'name': 'Bread'}
+    ]
+
+    edges = [
+        {'source': 1, 'target': 2},
+        {'source': 2, 'target': 3},
+        {'source': 2, 'target': 4},
+        {'source': 2, 'target': 5},
+        {'source': 6, 'target': 7},
+        {'source': 6, 'target': 8},
+        {'source': 8, 'target': 9},
+        {'source': 8, 'target': 10},
+        {'source': 11, 'target': 1}
+    ]
+
+    tree_data = []
+
+    # Create a dictionary to hold nodes by their id
+    node_dict = {node['id']: {'name': node['name'], 'children': []} for node in nodes}
+
+    # Iterate over edges to build the tree structure
+    for edge in edges:
+        source_id = edge['source']
+        target_id = edge['target']
+        source_node = node_dict[source_id]
+        target_node = node_dict[target_id]
+        source_node['children'].append(target_node)
+
+    # Find the root nodes
+    root_nodes = [node for node in node_dict.values() if not any(n['children'] == [node] for n in node_dict.values())]
+
+    tree_data = root_nodes
+
+    return tree_data
+
+# Example usage:
+tree = generate_tree_data()
+print(tree)
