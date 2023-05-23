@@ -48,3 +48,31 @@ def generate_tree_data():
 # Example usage:
 tree = generate_tree_data()
 print(tree)
+
+import tkinter as tk
+from tkinter import ttk
+
+def create_tree_view(nodes, edges):
+    root = tk.Tk()
+    root.title("Tree View")
+
+    tree = ttk.Treeview(root)
+    tree.pack()
+
+    # Create nodes
+    node_map = {}
+    for node_value in nodes:
+        node_map[node_value] = tree.insert("", "end", text=node_value)
+
+    # Create edges and parent-child relationships
+    for parent, child in edges:
+        tree.move(node_map[child], node_map[parent], "end")
+
+    root.mainloop()
+
+# Example usage
+nodes = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
+edges = [('A', 'B'), ('A', 'C'), ('B', 'D'), ('B', 'E'), ('C', 'F'), ('C', 'G')]
+
+create_tree_view(nodes, edges)
+
