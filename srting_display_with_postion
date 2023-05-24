@@ -1,0 +1,12 @@
+def print_string_in_two_rows(input_string):
+    # Print the position of each letter
+    positions = ' '.join(str(i % 10) for i in range(1, len(input_string) + 1))
+    print(positions)
+
+    # Print the letters
+    letters = ' '.join(input_string)
+    print(letters)
+
+# Example usage
+string_to_print = "Hello, World!"
+print_string_in_two_rows(string_to_print)
