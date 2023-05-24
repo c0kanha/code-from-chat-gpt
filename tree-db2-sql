@@ -46,3 +46,44 @@ WITH RECURSIVE tree AS (
 SELECT t.name, t.path
 FROM tree t
 ORDER BY t.path;
+
+
+CREATE TABLE Nodes (
+  node_id INT PRIMARY KEY,
+  node_name VARCHAR(50)
+);
+
+CREATE TABLE Edges (
+  edge_id INT PRIMARY KEY,
+  source_node_id INT,
+  target_node_id INT,
+  FOREIGN KEY (source_node_id) REFERENCES Nodes(node_id),
+  FOREIGN KEY (target_node_id) REFERENCES Nodes(node_id)
+);
+
+WITH RECURSIVE ConnectedNodes AS (
+  SELECT source_node_id, target_node_id
+  FROM Edges
+  WHERE source_node_id = {given_node_id}
+  UNION ALL
+  SELECT e.source_node_id, e.target_node_id
+  FROM Edges e
+  INNER JOIN ConnectedNodes cn ON e.source_node_id = cn.target_node_id
+)
+SELECT * FROM ConnectedNodes;
+
+SELECT n2.*
+FROM Nodes n1
+JOIN Edges e ON e.source_node_id = n1.node_id
+JOIN Nodes n2 ON e.target_node_id = n2.node_id
+WHERE n1.node_id = {given_node_id};
+
+CREATE TABLE Edges (
+  edge_id INT PRIMARY KEY,
+  source_node_id INT,
+  target_node_id INT,
+  source_indent INT,
+  target_indent INT,
+  FOREIGN KEY (source_node_id) REFERENCES Nodes(node_id),
+  FOREIGN KEY (target_node_id) REFERENCES Nodes(node_id)
+);
