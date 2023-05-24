@@ -16,3 +16,24 @@ These tables are specific to QMF and are separate from the standard DB2 system t
 To access and retrieve information from these QMF tables, you may need to use QMF-specific commands or APIs provided by the QMF tool. The exact methods for accessing the information can vary depending on the QMF version and the interface you are using to interact with QMF.
 
 It's important to consult the QMF documentation or refer to the specific QMF resources for your environment to get accurate and detailed information on the tables and methods for accessing saved queries and QMF Procs information in your specific QMF installation.
+
+QMF (Query Management Facility) uses various system tables to store information about its objects. The specific tables used by QMF can vary depending on the version and configuration of QMF. Here are some commonly used system tables for storing QMF objects:
+
+QMF_SAVED_QUERIES:
+
+This table stores information about the saved queries created in QMF, including the query name, definition, creator, creation timestamp, and other relevant properties.
+QMF_PROCEDURES:
+
+QMF_PROCEDURES table stores information about QMF Procs, including the procedure name, definition, creator, creation timestamp, and other associated properties.
+QMF_VIEWS:
+
+QMF_VIEWS table contains information about QMF views. It includes details such as view name, definition, creator, creation timestamp, and other view-specific properties.
+QMF_REPORTS:
+
+QMF_REPORTS table stores information about QMF reports. It includes details such as report name, definition, creator, creation timestamp, and other relevant properties.
+QMF_COMMANDS:
+
+QMF_COMMANDS table contains information about QMF commands. It stores details such as command name, definition, creator, creation timestamp, and other command-related properties.
+These are some of the commonly used system tables specific to QMF. However, please note that the specific tables and their structures may vary based on the QMF version and any customization done in the QMF environment.
+
+To access and retrieve information from these system tables, it is recommended to refer to the QMF documentation or consult the specific resources provided by the QMF tool or vendor. They will provide detailed information on the tables and methods for accessing and managing QMF objects in your specific QMF installation
