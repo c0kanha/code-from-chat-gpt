@@ -1,3 +1,18 @@
 GRANT SELECT, INSERT, UPDATE, DELETE ON table_name TO user1;
 
 GRANT SELECT ON table_name TO PUBLIC;
+
+
+MF (Query Management Facility) stores information about saved queries and QMF Procs in its own set of tables. The specific tables used to store this information may vary depending on the version and configuration of QMF. However, here are some commonly used tables for storing QMF saved queries and QMF Procs information:
+
+QMF_SAVED_QUERIES:
+
+This table stores information about the saved queries created in QMF. It typically contains details such as query name, query definition, creator, creation timestamp, and other properties associated with the saved queries.
+QMF_PROCEDURES:
+
+QMF_PROCEDURES table is used to store information about QMF Procs. It holds details such as procedure name, procedure definition, creator, creation timestamp, and other properties associated with QMF Procs.
+These tables are specific to QMF and are separate from the standard DB2 system tables that store general database metadata. The tables mentioned above are used by QMF to manage and retrieve information about saved queries and QMF Procs.
+
+To access and retrieve information from these QMF tables, you may need to use QMF-specific commands or APIs provided by the QMF tool. The exact methods for accessing the information can vary depending on the QMF version and the interface you are using to interact with QMF.
+
+It's important to consult the QMF documentation or refer to the specific QMF resources for your environment to get accurate and detailed information on the tables and methods for accessing saved queries and QMF Procs information in your specific QMF installation.
