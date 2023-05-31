@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #tree ul,
+    #tree li {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      position: relative;
+    }
+
+    #tree li {
+      margin-top: 1em;
+    }
+
+    #tree ul ul {
+      margin-left: 1em;
+      position: relative;
+    }
+
+    #tree a {
+      color: #333;
+      text-decoration: none;
+    }
+
+    #tree a:before {
+      content: "";
+      position: absolute;
+      top: -0.7em;
+      left: -1.1em;
+      border-left: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+      border-top: 1px solid #ccc;
+      width: 1em;
+      height: 1em;
+      transform: rotate(-45deg);
+    }
+
+    #tree li > a:before {
+      border-top: none;
+    }
+
+    #tree ul.collapsed > li > ul {
+      display: none;
+    }
+
+    #tree ul.collapsed > li > a:before {
+      transform: rotate(135deg);
+    }
+  </style>
+</head>
+<body>
+  <div id="tree"></div>
+
+  <script>
+    // Sample node and edge data
+    var nodes = [
+      'CEO',
+      'CTO',
+      'Backend Team Lead',
+      'Frontend Team Lead',
+      'CFO',
+      'Accounting Manager',
+      'Finance Manager'
+    ];
+
+    var edges = [
+      { parent: 'CEO', child: 'CTO' },
+      { parent: 'CTO', child: 'Backend Team Lead' },
+      { parent: 'CTO', child: 'Frontend Team Lead' },
+      { parent: 'CEO', child: 'CFO' },
+      { parent: 'CFO', child: 'Accounting Manager' },
+      { parent: 'CFO', child: 'Finance Manager' }
+    ];
+
+    // Function to build the tree
+    function buildTree() {
+      var tree = document.getElementById('tree');
+      var ul = document.createElement('ul');
+      tree.appendChild(ul);
+
+      // Recursive function to build each level of the tree
+      function buildLevel(parentNode, parentLi) {
+        edges.forEach(function (edge) {
+          if (edge.parent === parentNode) {
+            var li = document.createElement('li');
+            var a = document.createElement('a');
+            a.href = '#';
+            a.textContent = edge.child;
+            a.addEventListener('click', function () {
+              var ul = li.querySelector('ul');
+              ul.classList.toggle('collapsed');
+            });
+            li.appendChild(a);
+            parentLi.appendChild(li);
+
+            var ul = document.createElement('ul');
+            ul.classList.add('collapsed');
+            li.appendChild(ul);
+
+            buildLevel(edge.child, ul);
+          }
+        });
+      }
+
+      buildLevel('CEO', ul);
+    }
+
+    // Call the buildTree function when the page loads
+    window.addEventListener('load', buildTree);
+  </script>
+</body>
+</html>
