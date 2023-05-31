@@ -1,0 +1,64 @@
+df.to_csv('output.csv', index=False)
+df.head()     # Returns the first 5 rows of the DataFrame
+df.tail(10)   # Returns the last 10 rows of the DataFrame
+df.info()
+df.describe()
+df.shape     # Returns the dimensions of the DataFrame
+df.columns   # Returns the column names of the DataFrame
+df.index     # Returns the row index labels of the DataFrame
+
+df.loc[3]          # Retrieves the row with label 3
+df.loc[3:5, 'A']   # Retrieves rows 3 to 5 from column 'A'
+
+df.iloc[2]         # Retrieves the third row (integer-based indexing)
+df.iloc[2:4, 0:2]  # Retrieves rows 2 to 3 and columns 0 to 1 (integer-based indexing)
+
+df[df['Column'].isin(['Value1', 'Value2'])]   # Retrieves rows where 'Column' has 'Value1' or 'Value2'
+
+df['Column'].unique()   # Returns unique values in 'Column'
+df['Column'].nunique()  # Returns the count of unique values in 'Column'
+df['Column'].value_counts()   # Returns counts of unique values in 'Column'
+
+df.sort_values('Column')         # Sorts the DataFrame by 'Column' in ascending order
+df.sort_values(['Col1', 'Col2']) # Sorts the DataFrame by 'Col1' first, then 'Col2'
+
+df.groupby('Column').mean()     # Calculates the mean for each group in 'Column'
+df.groupby(['Col1', 'Col2']).sum()   # Calculates the sum for each combination of 'Col1' and 'Col2'
+
+df.query('Column > 5')   # Retrieves rows where 'Column' is greater than 5
+
+df.isnull()         # Returns a DataFrame with True for missing values and False otherwise
+df.notnull()        # Returns a DataFrame with True for non-missing values and False otherwise
+
+df.fillna(0)        # Fills missing values with 0
+df.fillna(method='ffill')   # Fills missing values with the previous non-null value (forward fill)
+
+df.drop_duplicates()    # Removes duplicate rows based on all columns
+df.drop_duplicates(subset=['Col1', 'Col2'])   # Removes duplicate rows based on specific columns
+
+df.sample(n=5)      # Returns a random sample of 5 rows from the DataFrame
+df.sample(frac=0.2) # Returns a random sample representing 20% of the DataFrame
+
+df['Column'].astype(int)    # Converts 'Column' to integer data type
+
+df['Column'].astype(str)    # Converts 'Column' to string data type
+
+df.rename(columns={'OldName': 'NewName'})     # Renames column 'OldName' to 'NewName'
+
+df.rename(index={0: 'NewIndex', 1: 'NewIndex'})    # Renames index labels 0 and 1
+
+merged_df = df1.merge(df2, on='Column')    # Merges df1 and df2 based on common values in 'Column'
+
+pivot_df = df.pivot_table(values='Value', index='Row', columns='Column', aggfunc='sum')
+
+for index, row in df.iterrows():
+    print(index, row['Column'])
+df['Column'] = df['Column'].apply(lambda x: x * 2)   # Applies a lambda function to double the values in 'Column'
+
+df.corr()     # Calculates the correlation matrix for all numerical columns
+
+df['Col1'].corr(df['Col2'])    # Calculates the correlation between 'Col1' and 'Col2'
+
+df.plot(x='Column1', y='Column2', kind='scatter')   # Creates a scatter plot of 'Column1' vs. 'Column2'
+
+df['Column'].plot(kind='hist')    # Creates a histogram of values in 'Column'
