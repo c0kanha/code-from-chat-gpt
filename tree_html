@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    /* Add your CSS styling here */
+  </style>
+</head>
+<body>
+  <div id="tree"></div>
+
+  <script>
+    // Node and edge data
+    var nodes = [
+      // Your 8000 nodes data here
+    ];
+
+    var edges = [
+      // Your 8000 edges data here
+    ];
+
+    // Function to build the tree
+    function buildTree() {
+      var tree = document.getElementById('tree');
+      var ul = document.createElement('ul');
+      tree.appendChild(ul);
+
+      // Recursive function to build each level of the tree
+      function buildLevel(parentNode, parentLi) {
+        edges.forEach(function (edge) {
+          if (edge.parent === parentNode) {
+            var li = document.createElement('li');
+            var a = document.createElement('a');
+            a.href = '#';
+            a.textContent = edge.child;
+            li.appendChild(a);
+            parentLi.appendChild(li);
+
+            var ul = document.createElement('ul');
+            li.appendChild(ul);
+
+            buildLevel(edge.child, ul);
+          }
+        });
+      }
+
+      buildLevel('CEO', ul);
+    }
+
+    // Call the buildTree function when the page loads
+    window.addEventListener('load', buildTree);
+  </script>
+</body>
+</html>
