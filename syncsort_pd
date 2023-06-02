@@ -1,0 +1,13 @@
+//STEP1    EXEC PGM=SORT
+//SORTIN   DD DSN=your_input_dataset,DISP=SHR
+//SORTOUT  DD DSN=your_output_dataset,DISP=(NEW,CATLG),
+//          SPACE=(CYL,(tracks,blocks),RLSE),
+//          DCB=(RECFM=FB,LRECL=10,BLKSIZE=0)
+//SYSOUT   DD SYSOUT=*
+//SYSIN    DD *
+  SORT FIELDS=COPY
+  OUTREC FIELDS=(1,1,
+                IFTHEN=(WHEN=(2,1,CH,EQ,C'D'),OVERLAY=(3:3,8,PD,LENGTH=4)),
+                IFTHEN=(WHEN=(2,1,CH,EQ,C'C'),OVERLAY=(3:3,8,PD,MUL,-1,LENGTH=4)),
+                BUILD=(1,1,3,4,PD,TO=PD,LENGTH=5))
+/*
