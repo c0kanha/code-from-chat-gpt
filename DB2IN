@@ -1,15 +1,16 @@
-# Open the input and output files
-input_file = 'input.txt'
-output_file = 'output.txt'
+//STEP1    EXEC PGM=SORT
+//SORTIN   DD DSN=your_input_dataset,DISP=SHR
+//SORTOUT  DD DSN=your_output_dataset,DISP=(NEW,CATLG),
+//            SPACE=(CYL,(tracks,blocks),RLSE),
+//            DCB=(RECFM=FB,LRECL=51,BLKSIZE=0)
+//SYSOUT   DD SYSOUT=*
+//SYSIN    DD *
+  SORT FIELDS=COPY
+  INREC OVERLAY=(51:X)
+  INREC IFTHEN=(WHEN=(MOD(SEQNUM,5,EQ,1)),OVERLAY=(51:SEQNUM,8,ZD,TO=ZD,LENGTH=8))
+  OUTREC OVERLAY=(51:C',')
+/*
 
-with open(input_file, 'r') as f_input, open(output_file, 'w') as f_output:
-    records = f_input.readlines()  # Read all lines from the input file
-    
-    for i in range(0, len(records), 5):
-        # Take 5 records at a time and join them with commas
-        line = ','.join(records[i:i+5]).strip()
-        
-        f_output.write(line + '\n')  # Write the line to the output file
 
 # Open the input and output files
 input_file = 'input.txt'
