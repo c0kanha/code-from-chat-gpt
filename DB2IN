@@ -1,15 +1,16 @@
 //STEP1    EXEC PGM=SORT
 //SORTIN   DD DSN=your_input_dataset,DISP=SHR
 //SORTOUT  DD DSN=your_output_dataset,DISP=(NEW,CATLG),
-//            SPACE=(CYL,(tracks,blocks),RLSE),
-//            DCB=(RECFM=FB,LRECL=51,BLKSIZE=0)
+//          SPACE=(CYL,(tracks,blocks),RLSE),
+//          DCB=(RECFM=FB,LRECL=51,BLKSIZE=0)
 //SYSOUT   DD SYSOUT=*
 //SYSIN    DD *
   SORT FIELDS=COPY
-  INREC OVERLAY=(51:X)
-  INREC IFTHEN=(WHEN=(MOD(SEQNUM,5,EQ,1)),OVERLAY=(51:SEQNUM,8,ZD,TO=ZD,LENGTH=8))
-  OUTREC OVERLAY=(51:C',')
+  INREC IFTHEN=(WHEN=GROUP, BEGIN=(1,51,CH,EQ,C''),
+               PUSH=(81:SEQNUM,8,ZD,TO=ZD,LENGTH=8))
+  OUTREC BUILD=(1,10,11:C',',12,10,23:C',',24,10,35:C',',36,10,47:C',',58:81,8)
 /*
+
 
 
 # Open the input and output files
