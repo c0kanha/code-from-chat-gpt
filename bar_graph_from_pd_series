@@ -101,3 +101,64 @@ plt.savefig('fancy_date_count_bar_graph.png', dpi=300)
 # Show the plot
 plt.show()
 
+================================================================================
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+import numpy as np
+
+# Example data
+date_counts = pd.Series([169000000, 169500000, 169200000, 169800000],
+                        index=pd.to_datetime(['2023-05-31', '2023-06-01', '2023-06-02', '2023-06-03']))
+
+# Calculate the change in counts
+count_diff = date_counts.diff()
+
+# Create a figure and axes objects
+fig, ax = plt.subplots(figsize=(10, 6))
+
+# Plot the bars
+bar_colors = ['g' if diff >= 0 else 'r' for diff in count_diff]
+ax.bar(date_counts.index, date_counts.values, color=bar_colors, alpha=0.7, edgecolor='black', linewidth=1.5)
+
+# Set the x-axis tick format
+ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %d, %Y'))
+
+# Rotate the x-axis tick labels for better readability
+plt.xticks(rotation=45, ha='right')
+
+# Add labels and title
+ax.set_xlabel('Date', fontsize=12)
+ax.set_ylabel('Count (Millions)', fontsize=12)
+ax.set_title('Fancy Date vs Count Bar Graph', fontsize=14, fontweight='bold')
+
+# Add grid lines
+ax.grid(axis='y', linestyle='--', alpha=0.5)
+
+# Add annotations above each bar
+for i, count in enumerate(date_counts.values):
+    ax.annotate(f'{count:,}', (date_counts.index[i], count), ha='center', va='bottom', fontsize=10)
+
+# Add arrows indicating positive or negative change
+for i, diff in enumerate(count_diff):
+    if not pd.isnull(diff) and diff != 0:
+        arrow_color = 'g' if diff >= 0 else 'r'
+        ax.annotate('', (date_counts.index[i], count_diff[i]), (date_counts.index[i], count_diff[i] + 2e6),
+                    arrowprops=dict(arrowstyle='->', color=arrow_color, linewidth=1.5))
+
+# Add a background gradient
+gradient = np.linspace(0, 1, 100).reshape(10, 10)
+ax.imshow(gradient, cmap='Greys', aspect='auto', extent=(date_counts.index[0], date_counts.index[-1], 169e6, 170e6), alpha=0.2)
+
+# Add a colorbar
+cax = fig.add_axes([0.92, 0.12, 0.02, 0.75])
+cmap = plt.cm.ScalarMappable(cmap='plasma')
+cmap.set_array(date_counts.values)
+cbar = plt.colorbar(cmap, cax=cax)
+cbar.set_label('Count (Millions)', fontsize=12)
+
+# Save the plot (optional)
+plt.savefig('fancy_date_count_bar_graph.png', dpi=300)
+
+# Show the plot
+plt.show()
