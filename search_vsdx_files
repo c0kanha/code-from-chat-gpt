@@ -1,0 +1,21 @@
+import os
+
+def find_visio_documents(directory):
+    visio_documents = []
+    
+    for root, dirs, files in os.walk(directory):
+        for file in files:
+            if file.endswith('.vsdx') or file.endswith('.vsd'):
+                visio_documents.append(os.path.join(root, file))
+    
+    return visio_documents
+
+# Specify the directory to search for Visio documents
+directory_to_search = 'C:\\Path\\To\\Search'
+
+# Call the function to find Visio documents
+visio_files = find_visio_documents(directory_to_search)
+
+# Print the found Visio documents
+for file in visio_files:
+    print(file)
