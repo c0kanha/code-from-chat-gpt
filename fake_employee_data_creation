@@ -1,0 +1,34 @@
+from faker import Faker
+import random
+
+fake = Faker()
+
+def generate_fake_employee_data(num_employees):
+    employees = []
+    for _ in range(num_employees):
+        employee_id = fake.random_number(digits=5)
+        first_name = fake.first_name()
+        last_name = fake.last_name()
+        date_of_birth = fake.date_of_birth(minimum_age=18, maximum_age=65)
+        ssn = generate_fake_ssn()
+        employee = {
+            'employee_id': employee_id,
+            'first_name': first_name,
+            'last_name': last_name,
+            'date_of_birth': date_of_birth,
+            'ssn': ssn
+        }
+        employees.append(employee)
+    return employees
+
+def generate_fake_ssn():
+    ssn = random.randint(100, 999)
+    ssn = str(ssn) + '-' + str(random.randint(10, 99)) + '-' + str(random.randint(1000, 9999))
+    return ssn
+
+# Usage example
+num_employees = 10
+employees = generate_fake_employee_data(num_employees)
+
+for employee in employees:
+    print(employee)
