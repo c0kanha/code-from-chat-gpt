@@ -1,0 +1,38 @@
+import struct
+
+def read_mainframe_file(file_path):
+    with open(file_path, 'rb') as file:
+        # Read the binary data
+        data = file.read()
+
+    # Example structure format for a COMP field (4 bytes)
+    comp_format = '>i'  # '>' indicates big-endian byte order, 'i' indicates a signed integer (4 bytes)
+
+    # Example structure format for a COMP-3 field (5 bytes)
+    comp3_format = '>iB'  # 'i' indicates a signed integer (4 bytes), 'B' indicates an unsigned byte (1 byte)
+
+    # Parse the binary data
+    comp_data = struct.unpack(comp_format, data[0:4])[0]
+    comp3_data = unpack_comp3(data[4:9])
+
+    return comp_data, comp3_data
+
+def unpack_comp3(data):
+    unpacked_value = 0
+    for byte in data[:-1]:
+        unpacked_value = (unpacked_value * 100) + (byte >> 4)
+        unpacked_value = (unpacked_value * 100) + (byte & 0x0F)
+
+    last_byte = data[-1]
+    sign = last_byte & 0x0F
+    if sign == 0x0B or sign == 0x0D:
+        unpacked_value = -unpacked_value
+
+    return unpacked_value
+
+# Usage example
+file_path = 'mainframe_data.dat'
+comp_data, comp3_data = read_mainframe_file(file_path)
+
+print('COMP field:', comp_data)
+print('COMP-3 field:', comp3_data)
