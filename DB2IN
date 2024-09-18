@@ -25,3 +25,9 @@ with open(input_file, 'r') as f_input, open(output_file, 'w') as f_output:
         line = ','.join(record.rstrip() for record in records[i:i+5])
         
         f_output.write(line + ',\n')  # Write the line with comma to the output file
+Understood! Here’s a more generalized explanation that covers any number of months used:
+
+"The price lock period can be 12, 24, or 36 months, depending on the plan. If a customer uses the feature for any number of months and then it is deactivated, they will only have the remaining time from the original price lock period. For example, if they have used 11 months out of a 12-month lock or 23 months out of a 24-month lock, and the feature is deactivated, they will only have the remaining months available. If they reactivate the feature, they will be eligible only for the remaining time of their original lock period."
+
+This way, it applies to any scenario.
+
